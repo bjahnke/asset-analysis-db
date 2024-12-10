@@ -1,0 +1,2 @@
+bin/dump-schema-from-neon.sh
+bin/load-schema-to-neon.sh
