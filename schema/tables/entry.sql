@@ -17,4 +17,4 @@ CREATE TABLE public.entry (
     r_pct double precision
 );
 
-ALTER TABLE public.entry OWNER TO bjahnke71;
+-- ALTER TABLE public.entry OWNER TO bjahnke71;
