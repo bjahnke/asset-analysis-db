@@ -1,4 +1,5 @@
 CREATE TABLE public.regime (
+    id serial PRIMARY KEY,
     start serial NOT NULL,
     "end" serial NOT NULL,
     rg double precision NOT NULL,

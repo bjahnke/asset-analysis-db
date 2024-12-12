@@ -1,5 +1,5 @@
 CREATE TABLE public.stock_info (
-    index bigint NOT NULL,
+    id serial PRIMARY KEY,
     symbol text,
     "Security" text,
     "GICS Sector" text,

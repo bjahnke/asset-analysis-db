@@ -1,4 +1,5 @@
 CREATE TABLE public.floor_ceiling (
+    id serial PRIMARY KEY,
     test double precision NOT NULL,
     fc_val double precision NOT NULL,
     fc_date serial NOT NULL,

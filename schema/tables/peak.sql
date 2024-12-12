@@ -1,4 +1,5 @@
 CREATE TABLE public.peak (
+    id serial PRIMARY KEY,
     start serial NOT NULL,
     "end" serial NOT NULL,
     type bigint NOT NULL,

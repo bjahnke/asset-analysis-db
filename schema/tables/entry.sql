@@ -1,4 +1,5 @@
 CREATE TABLE public.entry (
+    id serial PRIMARY KEY,
     entry_date timestamp without time zone,
     symbol text,
     cost double precision,
