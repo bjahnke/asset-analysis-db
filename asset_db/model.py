@@ -66,13 +66,19 @@ class StockInfo(Base):
     Founded = Column(Text)
 
 
-class TimestampDatum(Base):
-    __tablename__ = 'timestamp_data'
+class StockDatum(Base):
+    __tablename__ = 'stock_data'
 
-    bar_number = Column(Integer, primary_key=True, server_default=text("nextval('timestamp_data_bar_number_seq'::regclass)"))
-    interval = Column(Text, nullable=False)
+    id = Column(Integer, primary_key=True, server_default=text("nextval('stock_data_id_seq'::regclass)"))
+    stock_id = Column(ForeignKey('stock.id'), nullable=False)
+    close = Column(Float(53), nullable=False)
+    open = Column(Float(53), nullable=False)
+    high = Column(Float(53), nullable=False)
+    low = Column(Float(53), nullable=False)
+    volume = Column(BigInteger, nullable=False)
     timestamp = Column(DateTime, nullable=False)
-    data_source = Column(Text, nullable=False)
+
+    stock = relationship('Stock')
 
 
 class FloorCeiling(Base):
@@ -81,14 +87,14 @@ class FloorCeiling(Base):
     id = Column(Integer, primary_key=True, server_default=text("nextval('floor_ceiling_id_seq'::regclass)"))
     test = Column(Float(53), nullable=False)
     fc_val = Column(Float(53), nullable=False)
-    fc_date = Column(ForeignKey('timestamp_data.bar_number'), nullable=False, server_default=text("nextval('floor_ceiling_fc_date_seq'::regclass)"))
-    rg_ch_date = Column(ForeignKey('timestamp_data.bar_number'), nullable=False, server_default=text("nextval('floor_ceiling_rg_ch_date_seq'::regclass)"))
+    fc_date = Column(ForeignKey('stock_data.id'), nullable=False, server_default=text("nextval('floor_ceiling_fc_date_seq'::regclass)"))
+    rg_ch_date = Column(ForeignKey('stock_data.id'), nullable=False, server_default=text("nextval('floor_ceiling_rg_ch_date_seq'::regclass)"))
     rg_ch_val = Column(Float(53), nullable=False)
     type = Column(BigInteger, nullable=False)
     stock_id = Column(ForeignKey('stock.id'), nullable=False, server_default=text("nextval('floor_ceiling_stock_id_seq'::regclass)"))
 
-    timestamp_datum = relationship('TimestampDatum', primaryjoin='FloorCeiling.fc_date == TimestampDatum.bar_number')
-    timestamp_datum1 = relationship('TimestampDatum', primaryjoin='FloorCeiling.rg_ch_date == TimestampDatum.bar_number')
+    stock_datum = relationship('StockDatum', primaryjoin='FloorCeiling.fc_date == StockDatum.id')
+    stock_datum1 = relationship('StockDatum', primaryjoin='FloorCeiling.rg_ch_date == StockDatum.id')
     stock = relationship('Stock')
 
 
@@ -96,14 +102,14 @@ class Peak(Base):
     __tablename__ = 'peak'
 
     id = Column(Integer, primary_key=True, server_default=text("nextval('peak_id_seq'::regclass)"))
-    start = Column(ForeignKey('timestamp_data.bar_number'), nullable=False, server_default=text("nextval('peak_start_seq'::regclass)"))
-    end = Column(ForeignKey('timestamp_data.bar_number'), nullable=False, server_default=text("nextval('peak_end_seq'::regclass)"))
+    start = Column(ForeignKey('stock_data.id'), nullable=False, server_default=text("nextval('peak_start_seq'::regclass)"))
+    end = Column(ForeignKey('stock_data.id'), nullable=False, server_default=text("nextval('peak_end_seq'::regclass)"))
     type = Column(BigInteger, nullable=False)
     lvl = Column(BigInteger, nullable=False)
     stock_id = Column(ForeignKey('stock.id'), nullable=False, server_default=text("nextval('peak_stock_id_seq'::regclass)"))
 
-    timestamp_datum = relationship('TimestampDatum', primaryjoin='Peak.end == TimestampDatum.bar_number')
-    timestamp_datum1 = relationship('TimestampDatum', primaryjoin='Peak.start == TimestampDatum.bar_number')
+    stock_datum = relationship('StockDatum', primaryjoin='Peak.end == StockDatum.id')
+    stock_datum1 = relationship('StockDatum', primaryjoin='Peak.start == StockDatum.id')
     stock = relationship('Stock')
 
 
@@ -111,28 +117,12 @@ class Regime(Base):
     __tablename__ = 'regime'
 
     id = Column(Integer, primary_key=True, server_default=text("nextval('regime_id_seq'::regclass)"))
-    start = Column(ForeignKey('timestamp_data.bar_number'), nullable=False, server_default=text("nextval('regime_start_seq'::regclass)"))
-    end = Column(ForeignKey('timestamp_data.bar_number'), nullable=False, server_default=text("nextval('regime_end_seq'::regclass)"))
+    start = Column(ForeignKey('stock_data.id'), nullable=False, server_default=text("nextval('regime_start_seq'::regclass)"))
+    end = Column(ForeignKey('stock_data.id'), nullable=False, server_default=text("nextval('regime_end_seq'::regclass)"))
     rg = Column(Float(53), nullable=False)
     type = Column(Text, nullable=False)
     stock_id = Column(ForeignKey('stock.id'), nullable=False, server_default=text("nextval('regime_stock_id_seq'::regclass)"))
 
-    timestamp_datum = relationship('TimestampDatum', primaryjoin='Regime.end == TimestampDatum.bar_number')
-    timestamp_datum1 = relationship('TimestampDatum', primaryjoin='Regime.start == TimestampDatum.bar_number')
-    stock = relationship('Stock')
-
-
-class StockDatum(Base):
-    __tablename__ = 'stock_data'
-
-    id = Column(Integer, primary_key=True, server_default=text("nextval('stock_data_id_seq'::regclass)"))
-    bar_number = Column(ForeignKey('timestamp_data.bar_number'), nullable=False, server_default=text("nextval('stock_data_bar_number_seq'::regclass)"))
-    close = Column(Float(53), nullable=False)
-    stock_id = Column(ForeignKey('stock.id'), nullable=False)
-    open = Column(Float(53), nullable=False)
-    high = Column(Float(53), nullable=False)
-    low = Column(Float(53), nullable=False)
-    volume = Column(BigInteger, nullable=False)
-
-    timestamp_datum = relationship('TimestampDatum')
+    stock_datum = relationship('StockDatum', primaryjoin='Regime.end == StockDatum.id')
+    stock_datum1 = relationship('StockDatum', primaryjoin='Regime.start == StockDatum.id')
     stock = relationship('Stock')

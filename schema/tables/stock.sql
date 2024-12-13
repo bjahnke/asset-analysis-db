@@ -6,6 +6,6 @@ CREATE TABLE public.stock (
     data_source text NOT NULL,
     market_index text NOT NULL,
     sec_type text NOT NULL
-);
+)
 
 -- ALTER TABLE public.stock OWNER TO bjahnke71;

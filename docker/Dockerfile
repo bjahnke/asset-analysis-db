@@ -8,5 +8,6 @@ ENV POSTGRES_DB=asset_analysis
 # Copy schema and migration files to the initialization directory
 COPY schema/tables /docker-entrypoint-initdb.d/
 COPY schema/migrations /docker-entrypoint-initdb.d/
+COPY schema/stored_procedures /docker-entrypoint-initdb.d/
 
 
