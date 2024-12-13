@@ -70,3 +70,6 @@ coverage/
 
 # misc
 build.log
+.pytest_cache/
+.vscode/
+schema_dump.sql
