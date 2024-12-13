@@ -16,7 +16,7 @@ def build(ctx):
         print("Failed to build Docker image. Check build.log for details.")
 
 @task
-def run(ctx):
+def start(ctx):
     """
     Stop any running Docker containers, start the Docker container, and log the output to run.log.
     """

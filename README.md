@@ -1,4 +1,4 @@
-# Asset Analysis Database
+# Asset Analysis Database (lazy naming, TODO improve)
 
 ## Overview
 
@@ -16,19 +16,33 @@ To install the project, follow these steps:
 
 1. Clone the repository:
     ```sh
-    git clone <repository-url>
-    cd <repository-directory>
+    git clone https://github.com/bjahnke/asset-analysis-db.git
     ```
 
-2. Build the Docker image:
+2. Install the required Python packages:
     ```sh
-    ./bin/build.sh
+    pip install -r requirements.txt
     ```
 
-3. Start the Docker container:
+3. Ensure `invoke` is installed:
     ```sh
-    ./bin/run.sh
+    pip install invoke
     ```
+
+4. Build the Docker image:
+    ```sh
+    inv build
+    ```
+
+5. Start the Docker container:
+    ```sh
+    inv start
+    ```
+
+6. If you wish to stop the container:
+   ```sh
+   inv stop
+   ```
 
 ## Project Structure
 
