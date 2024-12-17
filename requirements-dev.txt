@@ -1,2 +1,2 @@
-sqlacodegen --pre
+sqlacodegen
 invoke
