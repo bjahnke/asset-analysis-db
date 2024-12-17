@@ -54,3 +54,17 @@ def buildAll(ctx):
     ctx.run("sleep 1")
     generate_orm(ctx)
     stop(ctx)
+
+@task
+def ci_build(ctx):
+    """
+    Task to run the buildAll task for CI.
+    """
+    buildAll(ctx)
+
+@task
+def ci_test(ctx):
+    """
+    Task to run tests using pytest for CI.
+    """
+    ctx.run("pytest")
