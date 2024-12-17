@@ -27,6 +27,14 @@ jobs:
         pip install -r requirements.txt
         pip install -r requirements-dev.txt
 
+    - name: Install Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+        sudo systemctl start docker
+        sudo systemctl enable docker
+        sudo usermod -aG docker $USER
+
     - name: Run build task
       run: invoke ci-build
 
