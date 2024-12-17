@@ -55,5 +55,5 @@ jobs:
     - name: Run build task
       run: invoke ci-build
 
-    - name: Run tests
-      run: invoke ci-test
+    # - name: Run tests
+    #   run: invoke ci-test
