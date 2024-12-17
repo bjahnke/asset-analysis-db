@@ -49,7 +49,7 @@ def buildAll(ctx):
     Build the Docker image, run the container, generate ORM models, and stop the container.
     """
     build(ctx)
-    run(ctx)
+    start(ctx)
     # container is run in detached mode, so wait a moment for it to start up
     ctx.run("sleep 1")
     generate_orm(ctx)
