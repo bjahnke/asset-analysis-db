@@ -67,4 +67,4 @@ def ci_test(ctx):
     """
     Task to run tests using pytest for CI.
     """
-    ctx.run("pytest")
+    ctx.run("python -m pytest")
