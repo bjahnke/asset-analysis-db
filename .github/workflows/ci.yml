@@ -12,6 +12,16 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: asset_analysis
+        ports:
+          - 5432:5432
+          
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -54,6 +64,17 @@ jobs:
 
     - name: Run build task
       run: invoke ci-build
+
+    - name: Wait for Postgres to be ready
+      run: |
+        until pg_isready -h localhost -p 5432; do
+          echo "Waiting for postgres..."
+          sleep 2
+        done
+
+    - name: Run sqlacodegen
+      run: |
+        sqlacodegen postgresql://postgres:password@localhost:5432/asset_analysis > models.py
 
     # - name: Run tests
     #   run: invoke ci-test
