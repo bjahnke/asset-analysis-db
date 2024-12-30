@@ -11,16 +11,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: asset_analysis
-        ports:
-          - 5432:5432
           
     steps:
     - name: Checkout code
