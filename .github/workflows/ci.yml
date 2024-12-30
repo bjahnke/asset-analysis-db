@@ -62,19 +62,8 @@ jobs:
         sudo chmod +x /usr/local/bin/docker-compose
         sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-    - name: Run build task
+    - name: Run build task and generate ORM
       run: invoke ci-build
-
-    - name: Wait for Postgres to be ready
-      run: |
-        until pg_isready -h localhost -p 5432; do
-          echo "Waiting for postgres..."
-          sleep 2
-        done
-
-    - name: Run sqlacodegen
-      run: |
-        sqlacodegen postgresql://postgres:password@localhost:5432/asset_analysis > models.py
 
     # - name: Run tests
     #   run: invoke ci-test
