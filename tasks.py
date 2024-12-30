@@ -34,6 +34,7 @@ def generate_orm(ctx):
     """
     Generate ORM models from the PostgreSQL database and save them to model.py.
     """
+    ctx.run("mkdir ./asset_db")
     ctx.run("sqlacodegen postgresql+psycopg2://postgres:password@0.0.0.0/asset_analysis > ./asset_db/model.py")
 
 @task
@@ -54,3 +55,17 @@ def buildAll(ctx):
     ctx.run("sleep 1")
     generate_orm(ctx)
     stop(ctx)
+
+@task
+def ci_build(ctx):
+    """
+    Task to run the buildAll task for CI.
+    """
+    buildAll(ctx)
+
+@task
+def ci_test(ctx):
+    """
+    Task to run tests using pytest for CI.
+    """
+    ctx.run("python -m pytest")
