@@ -1,2 +1,3 @@
 sqlacodegen
 invoke
+git+https://github.com/bjahnke/utility-invoke-tasks.git

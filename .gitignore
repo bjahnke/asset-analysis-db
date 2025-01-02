@@ -73,3 +73,4 @@ build.log
 .pytest_cache/
 .vscode/
 schema_dump.sql
+environment.yaml

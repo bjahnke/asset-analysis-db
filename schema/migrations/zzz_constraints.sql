@@ -9,3 +9,4 @@ ALTER TABLE ONLY public.floor_ceiling ADD CONSTRAINT "stock_id_FK01" FOREIGN KEY
 ALTER TABLE ONLY public.peak ADD CONSTRAINT "stock_id_FK01" FOREIGN KEY (stock_id) REFERENCES public.stock(id);
 ALTER TABLE ONLY public.regime ADD CONSTRAINT "stock_id_FK01" FOREIGN KEY (stock_id) REFERENCES public.stock(id);
 ALTER TABLE ONLY public.stock_data ADD CONSTRAINT "stock_id_FK02" FOREIGN KEY (stock_id) REFERENCES public.stock(id);
+ALTER TABLE ONLY public.stock_data ADD CONSTRAINT "stock_id_FK01" FOREIGN KEY (stock_id) REFERENCES public.stock(id);`
