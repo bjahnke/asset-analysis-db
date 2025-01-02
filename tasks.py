@@ -34,6 +34,7 @@ def generate_orm(ctx):
     """
     Generate ORM models from the PostgreSQL database and save them to model.py.
     """
+    ctx.run("mkdir ./asset_db")
     ctx.run("sqlacodegen postgresql+psycopg2://postgres:password@0.0.0.0/asset_analysis > ./asset_db/model.py")
 
 @task
