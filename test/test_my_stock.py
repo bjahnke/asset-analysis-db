@@ -6,15 +6,15 @@ from asset_db.client import MyStock
 from sqlalchemy.engine import URL
 from sqlalchemy.sql import text
 
-
 connection_url = URL.create(
     drivername="postgresql+psycopg2",
     username="postgres",
     password="password",
-    host="localhost",
+    host='localhost',
     port=5432,
     database="asset_analysis"
 )
+
 Session = sessionmaker(bind=create_engine(connection_url))
 
 def clear_tables(session):

@@ -68,3 +68,64 @@ def ci_test(ctx):
     Task to run tests using pytest for CI.
     """
     ctx.run("python -m pytest")
+
+
+@task
+def start_ci_jupyter_env(ctx, clean=False):
+    """
+    Start a CI Jupyter environment.
+    
+    :param clean: If True, closes/deletes the existing act container if any exists (running or otherwise).
+    """
+    container_name = "act-ci-jupyter-env"
+    image_name = "catthehacker/ubuntu:act-latest"
+
+    if clean:
+        # Stop and remove the existing container if it exists
+        print("Stopping and removing existing container if it exists...")
+        ctx.run(f"docker stop {container_name}", warn=True)
+        ctx.run(f"docker rm {container_name}", warn=True)
+
+    # Pull the latest image
+    print("Pulling the latest image...")
+    ctx.run(f"docker pull {image_name}")
+
+    # Create the container
+    print("Creating the container...")
+    # Check if the container already exists
+    result = ctx.run(f"docker ps -a --filter name={container_name} --format '{{{{.Names}}}}'", hide=True)
+    if container_name not in result.stdout:
+        ctx.run(f"docker create --name {container_name} {image_name}")
+    else:
+        print(f"Container {container_name} already exists.")
+
+    # Start the container
+    print("Starting the container...")
+    print('docker start', container_name)
+    ctx.run(f"docker start {container_name}")
+    # Block until the container is ready
+    print("Waiting for the container to be ready...")
+    ctx.run(f"docker exec {container_name} bash -c 'until curl -s http://localhost:8888 > /dev/null; do sleep 1; done'")
+    # Install Jupyter Notebook inside the container
+    print("Installing Jupyter Notebook inside the container...")
+    ctx.run(f"docker exec {container_name} apt-get update")
+    ctx.run(f"docker exec {container_name} apt-get install -y python3-pip")
+    ctx.run(f"docker exec {container_name} pip3 install notebook")
+
+    # Start Jupyter Notebook server
+    print("Starting Jupyter Notebook server inside the container...")
+    ctx.run(f"docker exec -d {container_name} jupyter notebook --ip=0.0.0.0 --allow-root --no-browser")
+
+    print("Jupyter Notebook server started. You can access it at http://localhost:8888")
+
+@task
+def stop_ci_jupyter_env(ctx):
+    """
+    Stop and remove the CI Jupyter environment container.
+    """
+    container_name = "act-ci-jupyter-env"
+    print("Stopping the container...")
+    ctx.run(f"docker stop {container_name}", warn=True)
+    print("Removing the container...")
+    ctx.run(f"docker rm {container_name}", warn=True)
+    print("Container stopped and removed.")

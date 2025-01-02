@@ -59,18 +59,18 @@ def delete_table(session, table):
     session.execute(f"DELETE FROM {table}")
     session.commit()
 
-def add_stock_data(stock: Stock, data, session):
-    # Reformat the data to fit db model
-    stock = stock.get_or_create(session)
+# def add_stock_data(stock: Stock, data, session):
+#     # Reformat the data to fit db model
+#     stock = stock.get_or_create(session)
 
-    data = data.rename(columns={'Open': 'open', 'High': 'high', 'Low': 'low', 'Close': 'close', 'Volume': 'volume'})
-    data = data.reset_index().rename(columns={'Date': 'timestamp'})
-    data['interval'] = stock.interval
-    data['data_source'] = stock.data_source
-    data['stock_id'] = stock.id
-    data.to_sql('stock_data', session.bind, if_exists='append', index=False)
+#     data = data.rename(columns={'Open': 'open', 'High': 'high', 'Low': 'low', 'Close': 'close', 'Volume': 'volume'})
+#     data = data.reset_index().rename(columns={'Date': 'timestamp'})
+#     data['interval'] = stock.interval
+#     data['data_source'] = stock.data_source
+#     data['stock_id'] = stock.id
+#     data.to_sql('stock_data', session.bind, if_exists='append', index=False)
 
-    return stock.id
+#     return stock.id
 
 
 from asset_db.model import Stock
